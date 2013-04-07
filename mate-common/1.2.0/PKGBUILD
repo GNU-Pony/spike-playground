@@ -1,7 +1,7 @@
 pkgname=mate-common
 pkgver=1.2.0
 pkgrel=1
-pkgdesc="Common files for Mate packages"
+pkgdesc="Common files for MATE packages"
 arch=('i686' 'x86_64')
 url="http://mate-desktop.org"
 license=('GPL')
