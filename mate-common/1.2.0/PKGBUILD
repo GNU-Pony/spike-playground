@@ -1,0 +1,24 @@
+pkgname=mate-common
+pkgver=1.2.0
+pkgrel=1
+pkgdesc="Common files for Mate packages"
+arch=('i686' 'x86_64')
+url="http://mate-desktop.org"
+license=('GPL')
+depends=('glib2' 'python2')
+makedepends=('autoconf>=2.53' 'automake>=1.9' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0')
+options=('!libtool')
+source=(https://github.com/mate-desktop/mate-common/archive/mate-common-1.2.0.tar.gz)
+sha256sums=(24d8cc27b09ac864f3c245dde6117a158a1c527cb5043c89d9f39d3aae8216d2)
+
+build() {
+    cd "${srcdir}/mate-common-mate-common-1.2.0"
+    AUTOCONF=autoconf AUTOMAKE=automake ./autogen.sh --prefix=/usr || return 1
+    make || return 1
+}
+
+package() {
+    cd "${srcdir}/mate-common-mate-common-1.2.0"
+    make DESTDIR="${pkgdir}" install || return 1
+}
+
