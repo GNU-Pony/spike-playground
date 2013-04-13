@@ -1,5 +1,5 @@
 pkgname=atril
-pkgver=1.1.0
+pkgver=1.4.0
 pkgrel=1
 pkgdesc='The MATE document viewer'
 arch=('i686' 'x86_64')
@@ -12,7 +12,7 @@ optdepends=('texlive-bin: DVI support')
 install=atril.install
 options=('!libtool' '!emptydirs')
 source=("https://github.com/mate-desktop/mate-document-viewer/archive/mate-document-viewer-$pkgver.tar.gz")
-sha256sums=('f57dd2dbf85233ad8357d5237f330a2385e7e9fd1bbd0c659d3a7784d9614508')
+sha256sums=('c2bc67d64f2098aa112bd1aa7410651863155c804e34a386f7d13084453de462')
 
 
 build() {
