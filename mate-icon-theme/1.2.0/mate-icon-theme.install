@@ -1,0 +1,15 @@
+post_install() {
+    for file in usr/share/icons/*
+    do
+        gtk-update-icon-cache -q -t -f usr/share/icons/mate
+    done
+}
+
+post_upgrade() {
+    post_install
+}
+
+post_remove() {
+    post_install
+}
+
