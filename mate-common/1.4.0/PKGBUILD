@@ -5,7 +5,7 @@ pkgdesc="Common files for MATE packages"
 arch=('i686' 'x86_64')
 url="http://mate-desktop.org"
 license=('GPL')
-depends=('glib2' 'python2')
+depends=('python2' 'autoconf>=2.53' 'automake>=1.9' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0' 'which')
 makedepends=('autoconf>=2.53' 'automake>=1.9' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0')
 options=('!libtool')
 source=(https://github.com/mate-desktop/mate-common/archive/mate-common-1.4.0.tar.gz)
@@ -20,5 +20,6 @@ build() {
 package() {
     cd "${srcdir}/mate-common-mate-common-1.4.0"
     make DESTDIR="${pkgdir}" install || return 1
+    ln -sf "mate-autogen" "${pkgdir}/usr/bin/mate-autogen.sh"
 }
 

@@ -1,0 +1,31 @@
+pkgname=mate-doc-utils
+pkgver=1.2.1
+pkgrel=1
+pkgdesc="Common files for MATE packages"
+arch=('i686' 'x86_64')
+url="http://mate-desktop.org"
+license=('GPL' 'LGPL')
+depends=('libxslt' 'python2' 'docbook-xml' 'rarian')
+makedepends=('mate-common')
+options=('!emptydirs' '!libtool')
+source=(https://github.com/mate-desktop/mate-doc-utils/archive/mate-doc-utils-1.2.1.tar.gz)
+sha256sums=(9df6f24e0a2fc33d8fa02ec57b37bf46bb9d1be397b18342406e137d96e1d3f5)
+
+build() {
+    cd "${srcdir}/mate-doc-utils-mate-doc-utils-1.2.1"
+    AUTOCONF=autoconf AUTOMAKE=automake PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --localstatedir=/var --disable-scrollkeeper || return 1
+    make || return 1
+}
+
+package() {
+    cd "${srcdir}/mate-doc-utils-mate-doc-utils-1.2.1"
+    make DESTDIR="${pkgdir}" install || return 1
+    
+    # files with conflicts with gnome-doc-utils
+    rm -rf "${pkgdir}/usr/share/xml/mallard/"
+    rm "${pkgdir}/usr/share/pkgconfig/xml2po.pc"
+    rm -rf "${pkgdir}/usr/share/man/"
+    rm -rf "${pkgdir}/usr/lib/"
+    rm "${pkgdir}/usr/bin/xml2po"
+}
+
