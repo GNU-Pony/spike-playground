@@ -1,5 +1,5 @@
 pkgname=mate-desktop
-pkgver=1.4.1
+pkgver=1.2.0
 pkgrel=1
 pkgdesc='Library with common API for various MATE modules'
 arch=('i686' 'x86_64')
@@ -9,7 +9,7 @@ depends=('libunique' 'libnotify' 'hicolor-icon-theme' 'gvfs-obexftp' 'obexd-clie
 makedepends=('mate-doc-utils' 'intltool' 'mate-common' 'gtk-doc')
 options=('!emptydirs' '!libtool')
 source=("https://github.com/mate-desktop/mate-desktop/archive/mate-desktop-$pkgver.tar.gz")
-sha256sums=('541909f47ac7945ef3341e311fd1c6d0820b1c88cb26581fcefdb45134f29b85')
+sha256sums=('a99d06314a3b0d5e62d12a0d6962f4ab4fbd2475529e766fdbd03f1943ed7262')
 
 
 build() {
