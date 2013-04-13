@@ -1,0 +1,29 @@
+pkgname=mate-system-monitor
+pkgver=1.4.0
+pkgrel=1
+pkgdesc='A system monitor for MATE'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('libmatewnck' 'libgtop' 'gtkmm' 'librsvg' 'mate-icon-theme')
+makedepends=('mate-doc-utils' 'pkgconfig' 'intltool')
+options=('!emptydirs' '!libtool')
+install=mate-system-monitor.install
+source=("https://github.com/mate-desktop/mate-system-monitor/archive/mate-system-monitor-$pkgver.tar.gz")
+sha256sums=('57e441e8167f92aa67ea8a6b834cdc0463ab201de08acf9267e721ca1a1efcd1')
+
+
+build() {
+    cd "$srcdir/mate-system-monitor-mate-system-monitor-$pkgver"
+   ./autogen.sh --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/pkgname \
+       --localstatedir=/var --disable-static --disable-scrollkeeper \
+       --disable-schemas-install
+    make clean || true
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-system-monitor-mate-system-monitor-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
