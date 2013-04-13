@@ -1,0 +1,29 @@
+pkgname=mate-desktop
+pkgver=1.4.1
+pkgrel=1
+pkgdesc='Library with common API for various MATE modules'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL' 'LGPL')
+depends=('libunique' 'libnotify' 'hicolor-icon-theme' 'gvfs-obexftp' 'obexd-client' 'mateconf-2.0')
+makedepends=('mate-doc-utils' 'intltool' 'mate-common' 'gtk-doc')
+options=('!emptydirs' '!libtool')
+source=("https://github.com/mate-desktop/mate-desktop/archive/mate-desktop-$pkgver.tar.gz")
+sha256sums=('541909f47ac7945ef3341e311fd1c6d0820b1c88cb26581fcefdb45134f29b85')
+
+
+build() {
+    cd "$srcdir/mate-desktop-mate-desktop-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+        --disable-static --disable-scrollkeeper --disable-startup-notification --enable-unique || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-desktop-mate-desktop-$pkgver"
+    make DESTDIR="$pkgdir" install
+
+    # prevent conflicts errors
+    mv "$pkgdir/usr/share/omf" "$pkgdir/usr/share/mate-omf"
+}
+
