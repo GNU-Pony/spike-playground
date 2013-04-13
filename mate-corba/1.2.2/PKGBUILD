@@ -1,0 +1,25 @@
+pkgname=mate-corba
+pkgver=1.2.2
+pkgrel=1
+pkgdesc='Thin/fast CORBA ORB'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL' 'LGPL')
+depends=('libidl2>=0.8.11')
+makedepends=('pkgconfig' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+source=("https://github.com/mate-desktop/mate-corba/archive/mate-corba-$pkgver.tar.gz")
+sha256sums=('d82dc430057e7cc464f9fdc9de331a658096f971cbfdd40c973a826a05184731')
+
+
+build() {
+    cd "$srcdir/mate-corba-mate-corba-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --disable-static || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-corba-mate-corba-$pkgver"
+    make DESTDIR="$pkgdir" install
+}
+
