@@ -1,0 +1,29 @@
+pkgname=caja
+pkgver=1.2.2
+pkgrel=1
+pkgdesc='The MATE file manager'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('libexif' 'exempi' 'mate-icon-theme' 'shared-mime-info'
+         'desktop-file-utils' 'gvfs' 'libunique' 'mate-desktop')
+makedepends=('pkgconfig' 'intltool')
+options=('!libtool' '!emptydirs')
+install=caja.install
+source=("https://github.com/mate-desktop/mate-file-manager/archive/mate-file-manager-$pkgver.tar.gz")
+sha256sums=('13c11c4cd3c7c524980f3e7e657a021cdf35232aa17dee9d37fb4e3517651c7a')
+
+
+build() {
+    cd "$srcdir/mate-file-manager-mate-file-manager-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static --libexecdir=/usr/lib/caja --enable-unique \
+        --disable-update-mimedb || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-file-manager-mate-file-manager-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
