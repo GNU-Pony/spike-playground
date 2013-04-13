@@ -6,7 +6,7 @@ arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('GPL')
 depends=('libexif' 'exempi' 'mate-icon-theme' 'shared-mime-info'
-         'desktop-file-utils' 'gvfs' 'libunique' 'mate-desktop')
+         'desktop-file-utils' 'gvfs' 'libunique' 'mate-desktop>=1.5')
 makedepends=('pkgconfig' 'intltool')
 options=('!libtool' '!emptydirs')
 install=caja.install
