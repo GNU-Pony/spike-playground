@@ -1,0 +1,26 @@
+pkgname=libmatekeyring
+pkgver=1.3.0
+pkgrel=1
+pkgdesc="MATE keyring client library"
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL' 'LGPL')
+depends=('libgcrypt' 'gtk-doc')
+makedepends=('intltool' 'pkgconfig' 'python' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+source=("https://github.com/mate-desktop/libmatekeyring/archive/libmatekeyring-$pkgver.tar.gz")
+sha256sums=('35f7347e4020a80256d5439860c5d948cca31733942f3b58f3dc2fa53da4ac9e')
+
+
+build() {
+    cd "$srcdir/libmatekeyring-libmatekeyring-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static --libexecdir=/usr/lib/mate-keyring || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmatekeyring-libmatekeyring-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
