@@ -1,0 +1,25 @@
+pkgname=python-caja
+pkgver=1.4.0
+pkgrel=1
+pkgdesc='Caja-extension python bindings'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+install=python-caja.install
+license=('GPL')
+depends=('mate-file-manager' 'mate-common')
+source=("https://github.com/mate-desktop/python-caja/archive/python-caja-$pkgver.tar.gz")
+sha256sums=('060f31c212a3e5e65837e2d0e1c0b836c8327450734f168e06ba9e131e98acfb') 
+
+
+build() {
+    cd $srcdir/$pkgname-$pkgver
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --libexecdir=/usr/lib/$pkgname --disable-static --disable-scrollkeeper || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/$pkgname-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
