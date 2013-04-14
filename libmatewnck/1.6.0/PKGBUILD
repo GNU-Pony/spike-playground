@@ -1,0 +1,25 @@
+pkgname=libmatewnck
+pkgver=1.6.0
+pkgrel=1
+pkgdesc='MATE Window Navigator Construction Kit. A library to use for writing pagers and task lists.'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('LGPL')
+depends=('gtk-doc' 'glib2' 'gtk2' 'libx11' 'libxres' 'libxt' 'libxres' 'mate-common' 'gobject-introspection' 'startup-notification')
+source=("https://github.com/mate-desktop/libmatewnck/archive/libmatewnck-$pkgver.tar.gz")
+sha256sums=('253a1b9ca97901e17a1414fee4964055ac11c5240440b82d2a2f21bfb7eb5e44')
+
+
+build() {
+    cd "$srcdir/libmatewnck-libmatewnck-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+        --disable-static --libexecdir=/usr/lib/libmate --disable-canberra --enable-gtk-doc \
+        --enable-startup-notification --enable-introspection --disable-schemas-install || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmatewnck-libmatewnck-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
