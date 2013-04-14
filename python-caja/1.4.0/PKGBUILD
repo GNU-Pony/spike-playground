@@ -12,14 +12,14 @@ sha256sums=('060f31c212a3e5e65837e2d0e1c0b836c8327450734f168e06ba9e131e98acfb')
 
 
 build() {
-    cd $srcdir/$pkgname-$pkgver
+    cd $srcdir/python-caja-python-caja-$pkgver
     AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
         --localstatedir=/var --libexecdir=/usr/lib/$pkgname --disable-static --disable-scrollkeeper || return 1
     make || return 1
 }
 
 package() {
-    cd "$srcdir/$pkgname-$pkgver"
+    cd "$srcdir/python-caja-python-caja-$pkgver"
     make DESTDIR="$pkgdir/" install
 }
 
