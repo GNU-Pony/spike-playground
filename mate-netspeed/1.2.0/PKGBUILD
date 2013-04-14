@@ -1,0 +1,27 @@
+pkgname=mate-netspeed
+pkgver=1.2.0
+pkgrel=1
+pkgdesc='Applet that shows traffic on a network device for MATE'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('mate-panel' 'expat' 'libgtop>=2' 'gtk2' 'libmate' 'mate-conf' 'libmatecomponent' 'libmatecomponentui'
+         'libmatecanvas' 'mate-doc-utils' 'gnome-doc-utils' 'wireless_tools' 'mate-common')
+makedepends=('automake-1.12')
+install=mate-netspeed.install
+source=("https://github.com/mate-desktop/mate-netspeed/archive/mate-netspeed-$pkgver.tar.gz")
+sha256sums=('dd27340257ebc321389891a3c213f16d738d2e676df0a83716259eb867fd3f1b')
+
+
+build() {
+    cd "$srcdir/mate-netspeed-mate-netspeed-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --libexecdir=/usr/lib/$pkgname --disable-static --disable-scrollkeeper
+    make
+}
+
+package() {
+    cd "$srcdir/mate-netspeed-mate-netspeed-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+

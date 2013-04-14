@@ -1,0 +1,27 @@
+pkgname=libmateweather
+pkgver=1.5.0
+pkgrel=1
+pkgdesc='Provides access to weather information from the net'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('LGPL')
+depends=()
+makedepends=('pkgconfig' 'intltool' 'gtk-doc' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+install=libmateweather.install
+source=("https://github.com/mate-desktop/libmateweather/archive/libmateweather-$pkgver.tar.gz")
+sha256sums=('b0b7a381edc04d0fbd99edb1074137ca0d9af349fbb9b4570e5bf9134bee03e7')
+
+
+build() {
+    cd "$srcdir/libmateweather-libmateweather-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static --enable-locations-compression || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmateweather-libmateweather-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+

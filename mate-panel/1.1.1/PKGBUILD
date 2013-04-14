@@ -1,0 +1,27 @@
+pkgname=mate-panel
+pkgver=1.1.1
+pkgrel=1
+pkgdesc='The MATE Panels'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('libmatewnck' 'mate-menus' 'mate-desktop' 'librsvg' 'hicolor-icon-theme' 'libcanberra' 'libmateweather')
+makedepends=('mate-doc-utils' 'pkgconfig' 'intltool' 'networkmanager' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+install=mate-panel.install
+source=("https://github.com/mate-desktop/mate-panel/archive/mate-panel-$pkgver.tar.gz")
+sha256sums=('b51dddc6d5b03a5b14ffa4d9f65fab84bcbb20ab7877b901e31ca1c4e9702f60')
+
+
+build() {
+    cd "$srcdir/mate-panel-mate-panel-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+        --disable-static --libexecdir=/usr/lib/mate-panel --disable-scrollkeeper --enable-introspection || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-panel-mate-panel-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
