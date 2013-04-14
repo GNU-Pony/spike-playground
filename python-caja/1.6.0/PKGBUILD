@@ -14,7 +14,7 @@ sha256sums=('0c7a9289550b17cb28ab291b78dcc0b64be67225ad31ece55fdd4a64002221ff')
 
 build() {
     cd $srcdir/python-caja-python-caja-$pkgver
-    AUTOMAKE=automake-1.12 AUTOCONF=autoconf PYTHON=/usr/bin/python2 ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf PYTHON=/usr/bin/python ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
         --localstatedir=/var --libexecdir=/usr/lib/$pkgname --disable-static --disable-scrollkeeper || return 1
     make || return 1
 }
