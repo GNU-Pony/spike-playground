@@ -7,13 +7,14 @@ url='http://mate-desktop.org'
 install=python-caja.install
 license=('GPL')
 depends=('caja' 'mate-common')
+makedepends=('automake-1.12')
 source=("https://github.com/mate-desktop/python-caja/archive/python-caja-$pkgver.tar.gz")
 sha256sums=('92c008a16fb4060adae2183c69e1d35718a948118914ff57394700df2d5e2f51') 
 
 
 build() {
     cd $srcdir/python-caja-python-caja-$pkgver
-    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
         --localstatedir=/var --libexecdir=/usr/lib/$pkgname --disable-static --disable-scrollkeeper || return 1
     make || return 1
 }
