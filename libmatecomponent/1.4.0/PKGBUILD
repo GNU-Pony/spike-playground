@@ -1,0 +1,30 @@
+pkgname=libmatecomponent
+pkgver=1.4.0
+pkgrel=1
+pkgdesc='A set of language and system independent CORBA interfaces for creating reusable components'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL' 'LGPL')
+depends=('mate-corba' 'libxml2' 'glib2')
+makedepends=('intltool' 'pkgconfig' 'flex' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+install=libmatecomponent.install
+backup=('etc/matecomponent-activation/matecomponent-activation-config.xml')
+source=("https://github.com/mate-desktop/libmatecomponent/archive/libmatecomponent-$pkgver.tar.gz"
+        'matecomponent-activation-config.xml')
+sha256sums=('8119188334794a789a6dc6d6faa6f1902e0c0d3e1f735b6e041d01f1c00c9cdf'
+            'c1fc9b102f2635b0d4be39728d19737c1013b61395d0bd0c508fc6ad6b61643e')
+
+
+build() {
+    cd "$srcdir/libmatecomponent-libmatecomponent-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static --libexecdir=/usr/lib/matecomponent || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmatecomponent-libmatecomponent-$pkgver"
+    make DESTDIR="$pkgdir" install
+    install -m644 "$srcdir/matecomponent-activation-config.xml" "$pkgdir/etc/matecomponent-activation/"
+}
