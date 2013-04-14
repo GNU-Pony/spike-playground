@@ -1,0 +1,28 @@
+pkgname=mate-character-map
+pkgver=1.6.0
+pkgrel=1
+pkgdesc='MATE unicode character map'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('hicolor-icon-theme')
+makedepends=('mate-doc-utils' 'pkgconfig' 'intltool')
+install=mate-character-map.install
+source=("https://github.com/mate-desktop/mate-character-map/archive/mate-character-map-$pkgver.tar.gz")
+sha256sums=('b399fcc2be4eb8849ad2e43292b921d21e21b9cd2a8012a52e4dc803267b684e')
+
+
+build()
+{
+    cd "$srcdir/mate-character-map-mate-character-map-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static --disable-scrollkeeper || return 1
+    make || return 1
+}
+
+package()
+{
+    cd "$srcdir/mate-character-map-mate-character-map-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
