@@ -6,7 +6,7 @@ arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 install=python-caja.install
 license=('GPL')
-depends=('caja>=1.6.0' 'mate-common')
+depends=('caja>=1.6.0' 'mate-common' 'python')
 makedepends=('automake-1.12')
 source=("https://github.com/mate-desktop/python-caja/archive/python-caja-$pkgver.tar.gz")
 sha256sums=('0c7a9289550b17cb28ab291b78dcc0b64be67225ad31ece55fdd4a64002221ff') 
