@@ -1,0 +1,26 @@
+pkgname=mate-menus
+pkgver=1.4.0
+pkgrel=1
+pkgdesc='MATE menu specifications'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('glib2' 'python2')
+makedepends=('intltool' 'gobject-introspection' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+source=("https://github.com/mate-desktop/mate-menus/archive/mate-menus-$pkgver.tar.gz")
+sha256sums=('0325e37fab7a763e7bfdca974ebfda4efb85cd6fe533f9b7d0b6d2f72c0e2bac')
+
+
+build() {
+    cd "$srcdir/mate-menus-mate-menus-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr \
+        --sysconfdir=/etc --localstatedir=/var --enable-python --disable-static || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-menus-mate-menus-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
