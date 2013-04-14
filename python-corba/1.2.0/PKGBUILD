@@ -1,0 +1,26 @@
+pkgname=python-corba
+pkgver=1.2.0
+pkgrel=1
+pkgdesc='Python binding for Mate CORBA'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('python2' 'mate-corba')
+makedepends=('pkgconfig')
+options=('!emptydirs')
+source=("https://github.com/mate-desktop/python-corba/archive/python-corba-$pkgver.tar.gz")
+sha256sums=('ed2d102c6b389e82dde84d81321f6833045e5bed2ed96ea28d594fc26e2e925f')
+
+
+build() {
+    cd "$srcdir/python-corba-python-corba-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf PYTHON=python2 ./autogen.sh \
+        --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static
+    PYTHON=python2 make || return 1
+}
+
+package() {
+    cd "$srcdir/python-corba-python-corba-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
