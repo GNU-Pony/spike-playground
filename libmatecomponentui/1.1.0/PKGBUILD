@@ -1,0 +1,27 @@
+pkgname=libmatecomponentui
+pkgver=1.1.0
+pkgrel=1
+pkgdesc='User Interface library for MateComponent'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL' 'LGPL')
+depends=('libmatecanvas' 'libmate')
+makedepends=('intltool' 'pkgconfig')
+options=('!emptydirs' '!libtool')
+source=("https://github.com/mate-desktop/libmatecomponentui/archive/libmatecomponentui-$pkgver.tar.gz")
+sha256sums=('2206c84925db591992578b2d1d05c6a901fb992dc0d845feea1425df8cdb430a')
+
+
+build() {
+    cd "$srcdir/libmatecomponentui-libmatecomponentui-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr \
+        --sysconfdir=/etc --localstatedir=/var --disable-static || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmatecomponentui-libmatecomponentui-$pkgver"
+    make DESTDIR="$pkgdir" install
+    rm -f "$pkgdir/usr/share/applications/matecomponent-browser.desktop"
+}
+
