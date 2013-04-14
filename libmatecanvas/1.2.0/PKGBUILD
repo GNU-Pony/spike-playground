@@ -1,0 +1,26 @@
+pkgname=libmatecanvas
+pkgver=1.2.0
+pkgrel=1
+pkgdesc='The MATE Canvas library'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('LGPL')
+depends=('libglade' 'libart-lgpl' 'libmate')
+makedepends=('pkgconfig' 'intltool' 'automake-1.12')
+options=('!libtool')
+groups=('mate')
+source=("https://github.com/mate-desktop/libmatecanvas/archive/libmatecanvas-$pkgver.tar.gz")
+sha256sums=('60baf6592f15a4d3147f5866682bd831f896a65687af3719f73565d7037b710d')
+
+
+build() {
+    cd "$srcdir/libmatecanvas-libmatecanvas-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --disable-static --enable-glade || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmatecanvas-libmatecanvas-$pkgver"
+    make DESTDIR="$pkgdir" install
+}
+
