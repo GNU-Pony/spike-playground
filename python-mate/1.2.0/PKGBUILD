@@ -7,16 +7,16 @@ url='http://mate-desktop.org'
 license=('GPL')
 depends=('python2' 'python-corba' 'libmate' 'libmateui' 'libmatecanvas'
          'libmatecomponent' 'mate-conf' 'mate-vfs' 'libmatecomponentui')
-makedepends=('pkgconfig')
+makedepends=('pkgconfig' 'automake-1.12')
 options=('!emptydirs')
 source=("https://github.com/mate-desktop/python-mate/archive/python-mate-$pkgver.tar.gz")
-sha256sums=('84366cb6e07b8f883dc12a0b1a173da2a010c7c7f868c2db3f02eb3aa3c53d28')
+sha256sums=('0897450794c4d50ad267c96fffa83df1e6e503b6b5bfff1552054e6d58e4c572')
 
 
 build() {
     cd "$srcdir/python-mate-python-mate-$pkgver"
     export PYTHON=python2
-    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --enable-mate --enable-mateui --enable-matecanvas \
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --enable-mate --enable-mateui --enable-matecanvas \
         --enable-matevfs --enable-matevfsmatecomponent --enable-pyvfsmodule --enable-mateconf \
         --enable-matecomponent_activation --enable-matecomponent --enable-matecomponentui --prefix=/usr \
         --sysconfdir=/etc --localstatedir=/var --disable-static || return 1
