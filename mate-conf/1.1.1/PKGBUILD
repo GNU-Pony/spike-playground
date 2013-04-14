@@ -12,7 +12,7 @@ install=mate-conf.install
 source=("https://github.com/mate-desktop/mate-conf/archive/mate-conf-$pkgver.tar.gz"
         'mateconf-merge-schema' 'mateconfpkg')
 sha256sums=('3f036490ba88201ad1e2bec586e4867161cd4bba5154253bca57ddc2217d2c10'
-            '3aed4c2bd5a4e25a1bcdc25098c709fd6aab54444315118ba79dbebeaf5281aa'
+            '592bdbc99f6e609e6f47f190a073af6810a39c6919f6d0898ea64cd51a94b1d3'
             '4d2c15038073df8c0eaa139edd78bb7cd66469f52bec9d7c5a73ba4e033b48f6')
 
 
@@ -28,5 +28,8 @@ build() {
 package() {
     cd "$srcdir/mate-conf-mate-conf-$pkgver"
     make DESTDIR="$pkgdir" install
+    mkdir -p "$pkgdir/usr/sbin"
+    install -m755 "$srcdir/mateconf-merge-schema" "$pkgdir/usr/sbin"
+    install -m755 "$srcdir/mateconfpkg" "$pkgdir/usr/sbin"
 }
 

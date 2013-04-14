@@ -30,7 +30,6 @@ done
   
 echo '</schemalist></mateconfschemafile>' >> "$OUTFILE"
 if [ "$DOMAIN" != "" ]; then
-	sed -ri "s/^([[:space:]]*)(<locale name=\"C\">)/\1<gettext_domain>$DOMAIN<\/gettext_domain>\n\1\2/; /^[[:space:]]*<locale name=\"[^C]/,/^[[:space:]]*<\/locale>[[:space:]]*\$/ d; /^$/d; s/<\/schema>$/&\n/" 
-"$OUTFILE"
+	sed -ri "s/^([[:space:]]*)(<locale name=\"C\">)/\1<gettext_domain>$DOMAIN<\/gettext_domain>\n\1\2/; /^[[:space:]]*<locale name=\"[^C]/,/^[[:space:]]*<\/locale>[[:space:]]*\$/ d; /^$/d; s/<\/schema>$/&\n/" "$OUTFILE"
 fi
 

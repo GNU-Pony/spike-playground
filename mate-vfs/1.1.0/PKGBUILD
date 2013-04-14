@@ -1,0 +1,31 @@
+pkgname=mate-vfs
+pkgver=1.1.0
+pkgrel=1
+pkgdesc='The MATE Virtual File System'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('LGPL')
+depends=('mate-conf' 'bzip2' 'smbclient' 'mate-mime-data')
+makedepends=('pkgconfig' 'intltool' 'gtk-doc' 'mate-common' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+install=mate-vfs.install
+source=("https://github.com/mate-desktop/mate-vfs/archive/mate-vfs-$pkgver.tar.gz")
+sha256sums=('72adb80021792579baf28bfa1f999fadf678b435a768140e89e56dbdd94d1f28')
+
+
+build() {
+    cd "$srcdir/mate-vfs-mate-vfs-$pkgver"
+    # --disable-openssl --enable-gnutls
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static \
+        --libexecdir=/usr/lib/mate-vfs --disable-samba --disable-hal --disable-avahi --disable-howl --disable-openssl || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-vfs-mate-vfs-$pkgver"
+    make MATECONF_DISABLE_MAKEFILE_SCHEMA_INSTALL=1 DESTDIR="$pkgdir" install
+    install -d -m755 "$pkgdir/usr/share/mateconf/schemas"
+    mateconf-merge-schema "$pkgdir/usr/share/mateconf/schemas/mate-vfs.schemas" --domain mate-vfs "$pkgdir/etc/mateconf/schemas/"*.schemas
+    rm -f "$pkgdir/etc/mateconf/schemas/"*.schemas
+}
+
