@@ -1,0 +1,30 @@
+pkgname=python-mate
+pkgver=1.2.0
+pkgrel=1
+pkgdesc='Python binding for MATE'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('python2' 'python-corba' 'libmate' 'libmateui' 'libmatecanvas'
+         'libmatecomponent' 'mate-conf' 'mate-vfs' 'libmatecomponentui')
+makedepends=('pkgconfig')
+options=('!emptydirs')
+source=("https://github.com/mate-desktop/python-mate/archive/python-mate-$pkgver.tar.gz")
+sha256sums=('84366cb6e07b8f883dc12a0b1a173da2a010c7c7f868c2db3f02eb3aa3c53d28')
+
+
+build() {
+    cd "$srcdir/python-mate-python-mate-$pkgver"
+    export PYTHON=python2
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --enable-mate --enable-mateui --enable-matecanvas \
+        --enable-matevfs --enable-matevfsmatecomponent --enable-pyvfsmodule --enable-mateconf \
+        --enable-matecomponent_activation --enable-matecomponent --enable-matecomponentui --prefix=/usr \
+        --sysconfdir=/etc --localstatedir=/var --disable-static || return 1
+    PYTHON=python2 make || return 1
+}
+
+package() {
+    cd "$srcdir/python-mate-python-mate-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
