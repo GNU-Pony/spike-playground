@@ -6,7 +6,7 @@ arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('GPL')
 depends=('glib2' 'python2')
-makedepends=('intltool' 'gobject-introspection')
+makedepends=('intltool' 'gobject-introspection' 'automake-1.12')
 options=('!emptydirs' '!libtool')
 source=("https://github.com/mate-desktop/mate-menus/archive/mate-menus-$pkgver.tar.gz")
 sha256sums=('f5f4ea99f3ed9838738c7dd54d95d583d8e5c38566c3826f1a04a07a9748e78b')
@@ -14,7 +14,7 @@ sha256sums=('f5f4ea99f3ed9838738c7dd54d95d583d8e5c38566c3826f1a04a07a9748e78b')
 
 build() {
     cd "$srcdir/mate-menus-mate-menus-$pkgver"
-    AUTOMAKE=automake AUTOCONF=autoconf PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr \
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr \
         --sysconfdir=/etc --localstatedir=/var --enable-python --disable-static || return 1
     make || return 1
 }
