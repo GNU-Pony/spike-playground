@@ -1,0 +1,26 @@
+pkgname=libmateui
+pkgver=1.1.0
+pkgrel=1
+pkgdesc='User interface library for MATE'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('LGPL')
+depends=('libmatecomponentui' 'libmatekeyring' 'libsm')
+makedepends=('intltool' 'pkgconfig')
+options=('!emptydirs' '!libtool')
+source=("https://github.com/mate-desktop/libmateui/archive/libmateui-$pkgver.tar.gz")
+sha256sums=('bf175c0b5b6b8f990ff4b068545602786eea79a24eb09e26c6673e0439b4ebd7')
+
+
+build() {
+    cd "$srcdir/libmateui-libmateui-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static --libexecdir=/usr/lib/libmateui || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmateui-libmateui-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+
