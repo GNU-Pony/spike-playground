@@ -1,0 +1,27 @@
+pkgname=pluma
+pkgver=1.6.0
+pkgrel=1
+pkgdesc="A powerful text editor for MATE"
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('gtk2' 'gtksourceview2' 'libxml2' 'pygtksourceview2')
+makedepends=('pkgconfig' 'mate-doc-utils' 'intltool')
+options=('!emptydirs' '!libtool')
+install=pluma.install
+source=("https://github.com/mate-desktop/mate-text-editor/archive/mate-text-editor-$pkgver.tar.gz")
+sha256sums=('1307de8bec2b8bcba04b0fd3cf8c1707d95f6dbf4ee78e0ea9b437ccfadf1407')
+
+
+build() {
+    cd "$srcdir/mate-text-editor-mate-text-editor-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --libexecdir=/usr/lib/ --disable-scrollkeeper --enable-python || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-text-editor-mate-text-editor-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
