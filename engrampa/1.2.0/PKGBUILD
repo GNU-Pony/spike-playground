@@ -1,0 +1,40 @@
+pkgname=engrampa
+pkgver=1.2.0
+pkgrel=1
+pkgdesc='Archive manipulator for MATE'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('desktop-file-utils' 'glib2' 'hicolor-icon-theme')
+makedepends=('mate-doc-utils' 'intltool')
+conflicts=('file-roller' 'file-roller2')
+optdepends=('unrar: for RAR uncompression'
+            'zip: for ZIP archives'
+            'unzip: for ZIP archives'
+            'p7zip: 7zip compression utility'
+            'arj: for ARJ archives'
+            'unace: extraction tool for the proprietary ace archive format')
+options=('!libtool' '!emptydirs')
+install=engrampa.install
+source=("https://github.com/mate-desktop/mate-file-archiver/archive/engrampa-$pkgver.tar.gz")
+sha256sums=('32ef8034ba3ea3d7de462a1a680a2712e35c78c3cb434e7ea6fc26236728e105')
+
+
+build() {
+    cd "$srcdir/mate-file-archiver-engrampa-$pkgver"
+    export AUTOMAKE=automake
+    export ACLOCAL=aclocal
+    export AUTOCONF=autoconf
+    ./autogen.sh --prefix=/usr --disable-static --localstatedir=/var --libexecdir=/usr/lib/engrampa \
+        --disable-scrollkeeper --disable-schemas-install --sysconfdir=/etc --disable-packagekit
+    mate-doc-prepare --force
+    autoreconf -i
+    $ACLOCAL
+    make
+}
+
+package() {
+    cd "$srcdir/mate-file-archiver-engrampa-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+

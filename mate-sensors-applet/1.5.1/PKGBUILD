@@ -1,0 +1,27 @@
+pkgname=mate-sensors-applet
+pkgver=1.5.1
+pkgrel=1
+pkgdesc='Hardware monitoring applets for the MATE panels'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('mate-panel' 'lm_sensors' 'udisks' 'xdg-utils')
+makedepends=('intltool' 'mate-doc-utils' 'automake-1.12')
+options=('!libtool')
+install=mate-sensors-applet.install
+source=("https://github.com/mate-desktop/mate-sensors-applet/archive/mate-sensors-applet-$pkgver.tar.gz")
+sha256sums=('41710b33e491e51e1a7134764f6665cdfab0139b7fcc6cac89c4c0cc47e6ad21')
+
+
+build() {
+  cd $srcdir/mate-sensors-applet-mate-sensors-applet-$pkgver
+  AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh LDFLAGS="-ldl" --prefix=/usr --sysconfdir=/etc \
+      --localstatedir=/var --libexecdir=/usr/lib/mate-sensors-applet --disable-static --disable-scrollkeeper
+  make
+}
+
+package() {
+  cd "$srcdir/mate-sensors-applet-mate-sensors-applet-$pkgver"
+  make DESTDIR="$pkgdir/" install
+}
+
