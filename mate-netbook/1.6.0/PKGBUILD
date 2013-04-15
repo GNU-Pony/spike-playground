@@ -1,0 +1,26 @@
+pkgname=mate-netbook
+pkgver=1.6.0
+pkgrel=1
+pkgdesc='Window management tool for MATE'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('libmatewnck' 'glib2' 'gtk2' 'libunique' 'libxtst' 'libfakekey' 'mate-panel')
+makedepends=('automake-1.12')
+install=mate-netbook.install
+source=("https://github.com/mate-desktop/mate-netbook/archive/mate-netbook-$pkgver.tar.gz")
+sha256sums=('b20ffeb58e58612b05059488a4203c708f2599ca59ac291691a691b16d255bcb')
+
+
+build() {
+    cd "$srcdir/mate-netbook-mate-netbook-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh LDFLAGS="-lm" --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --libexecdir=/usr/lib/$pkgname --disable-static --disable-scrollkeeper
+    make
+}
+
+package() {
+    cd "$srcdir/mate-netbook-mate-netbook-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+

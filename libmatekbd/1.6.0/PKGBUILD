@@ -1,0 +1,26 @@
+pkgname=libmatekbd
+pkgver=1.6.0
+pkgrel=1
+pkgdesc='MATE keyboard library'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('LGPL')
+depends=('libxklavier')
+makedepends=('intltool' 'pkgconfig')
+options=('!emptydirs' '!libtool')
+install=libmatekbd.install
+source=("https://github.com/mate-desktop/libmatekbd/archive/libmatekbd-$pkgver.tar.gz")
+sha256sums=('ea20928c616e3d10c509b65310954d4e33e9f7d146e1cdd8631f8e9e06790903')
+
+
+build() {
+    cd "$srcdir/libmatekbd-libmatekbd-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc --disable-static || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/libmatekbd-libmatekbd-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+}
+

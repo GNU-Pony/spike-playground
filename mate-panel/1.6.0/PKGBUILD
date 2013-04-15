@@ -5,7 +5,7 @@ pkgdesc='The MATE Panels'
 arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('GPL')
-depends=('libmatewnck>=1.5.1' 'mate-menus' 'mate-desktop>=1.5' 'librsvg' 'hicolor-icon-theme' 'libcanberra' 'libmateweather>=1.5.0')
+depends=('libmatewnck>=1.5.1' 'mate-menus' 'mate-desktop>=1.5.0' 'librsvg' 'hicolor-icon-theme' 'libcanberra' 'libmateweather>=1.5.0')
 makedepends=('mate-doc-utils' 'pkgconfig' 'intltool' 'networkmanager')
 options=('!emptydirs' '!libtool')
 install=mate-panel.install

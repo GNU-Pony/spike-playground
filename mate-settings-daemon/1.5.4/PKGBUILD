@@ -1,0 +1,29 @@
+pkgname=mate-settings-daemon
+pkgver=1.5.4
+pkgrel=1
+pkgdesc='The MATE settings daemon'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('libmatekbd>=1.5.0' 'mate-desktop>=1.5.0' 'libnotify' 'gstreamer0.10-base' 'hicolor-icon-theme')
+makedepends=('intltool' 'pkgconfig')
+options=('!libtool')
+install=mate-settings-daemon.install
+source=("https://github.com/mate-desktop/mate-settings-daemon/archive/mate-settings-daemon-$pkgver.tar.gz")
+sha256sums=('5d81dbec38f9fd8e3b950e83bccca8816c8b47237efaa3cf07367dd17de36357')
+
+
+build() {
+    cd "$srcdir/mate-settings-daemon-mate-settings-daemon-$pkgver"
+    # remove --disable-pulse if you want pulseaudio support
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --libexecdir=/usr/lib/mate-settings-daemon --disable-static \
+        --disable-pulse --disable-schemas-install --enable-polkit || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-settings-daemon-mate-settings-daemon-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
