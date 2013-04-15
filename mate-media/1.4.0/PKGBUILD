@@ -1,0 +1,44 @@
+pkgname=mate-media
+pkgver=1.4.0
+pkgrel=1
+pkgdesc='MATE media tools'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('gstreamer0.10-base-plugins' 'mate-panel' 'libnotify' 'pulseaudio')
+makedepends=('mate-doc-utils' 'pkgconfig' 'mate-settings-daemon' 'intltool' 'mate-icon-theme' 'libpulse' 'automake-1.12')
+options=('!emptydirs' '!libtool')
+install=mate-media.install
+source=("https://github.com/mate-desktop/mate-media/archive/mate-media-$pkgver.tar.gz")
+sha256sums=('3ee7f80ed561d75a9e7939262b0e9c6de556f1e6520d6ff784e8027cf344d717')
+
+
+build() {
+    cd "$srcdir/mate-media-mate-media-$pkgver"
+    # optional features:
+    #    --enable-pulseaudio     enable PulseAudio support
+    #    --enable-profiles       enable mate media profiles
+    #    --enable-grecord        enable mate sound recorder
+    #    --enable-gstprops       enable gstreamer properties
+    #    --enable-gstmix         enable gstreamer mixer
+    export AUTOMAKE=automake-1.12
+    export ACLOCAL=aclocal-1.12
+    export AUTOCONF=autoconf
+    ./autogen.sh --prefix=/usr --sysconfdir=/etc --libexecdir=/usr/lib/mate-media \
+        --localstatedir=/var --disable-static --disable-schemas-install --disable-scrollkeeper --enable-pulseaudio \
+        --enable-profiles --enable-grecord --enable-gstprops
+    mate-doc-prepare --force --copy
+    $AUTOMAKE
+    $AUTOCONF
+    autoreconf -i --force
+    $ACLOCAL
+    intltoolize --automake --copy --force
+    $AUTOMAKE --add-missing
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-media-mate-media-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
