@@ -1,0 +1,28 @@
+pkgname=eye-of-mate
+pkgver=1.2.0
+pkgrel=1
+pkgdesc='An image viewing and cataloging program for MATE'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('mate-desktop' 'libexif' 'lcms' 'desktop-file-utils' 'mate-icon-theme' 'exempi')
+makedepends=('pkgconfig' 'mate-doc-utils' 'intltool')
+options=('!emptydirs' '!libtool')
+conflicts=('eog')
+install=eye-of-mate.install
+source=("https://github.com/mate-desktop/mate-image-viewer/archive/eom-$pkgver.tar.gz")
+sha256sums=('701571734d86423b91c6ad9a1836541e720581dd0474343c332dba55953601f6')
+
+
+build() {
+    cd "$srcdir/mate-image-viewer-eom-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr \
+        --sysconfdir=/etc --localstatedir=/var --disable-scrollkeeper || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-image-viewer-eom-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
