@@ -1,0 +1,16 @@
+post_install() {
+    usr/sbin/mateconfpkg --install ffmpegthumbnailer-caja
+}
+
+pre_upgrade() {
+    pre_remove $1
+}
+
+post_upgrade() {
+    post_install $1
+}
+
+pre_remove() {
+    usr/sbin/mateconfpkg --uninstall ffmpegthumbnailer-caja
+}
+
