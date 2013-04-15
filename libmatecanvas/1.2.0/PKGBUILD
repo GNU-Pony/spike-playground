@@ -8,7 +8,6 @@ license=('LGPL')
 depends=('libglade' 'libart-lgpl' 'libmate')
 makedepends=('pkgconfig' 'intltool' 'automake-1.12')
 options=('!libtool')
-groups=('mate')
 source=("https://github.com/mate-desktop/libmatecanvas/archive/libmatecanvas-$pkgver.tar.gz")
 sha256sums=('60baf6592f15a4d3147f5866682bd831f896a65687af3719f73565d7037b710d')
 
