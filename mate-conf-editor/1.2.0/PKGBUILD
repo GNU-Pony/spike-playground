@@ -1,5 +1,5 @@
 pkgname=mate-conf-editor
-pkgver=1.1.0
+pkgver=1.2.0
 pkgrel=1
 pkgdesc='A configuration database system editor'
 arch=('i686' 'x86_64')
@@ -9,7 +9,7 @@ depends=('mate-corba' 'libxml2' 'polkit' 'libldap' 'dbus-glib' 'gtk2' 'mate-conf
 makedepends=('pkgconfig' 'intltool' 'gtk-doc' 'gobject-introspection')
 install=mate-conf-editor.install
 source=("https://github.com/mate-desktop/mate-conf-editor/archive/mate-conf-editor-$pkgver.tar.gz")
-sha256sums=('7b2fc49763e1361cf2566c036c4b5096c44fc8f1d608b9c4ffcdd5b53c33c594')
+sha256sums=('6271b113843e3bc669e13fd3731b7e9deb16364e0249769a9925a1352c26b0dd')
 
 
 build() {
