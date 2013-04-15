@@ -1,0 +1,27 @@
+pkgname=mate-terminal
+pkgver=1.5.0
+pkgrel=1
+pkgdesc='The MATE terminal emulator'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('vte' 'libsm')
+makedepends=('pkgconfig' 'mate-doc-utils' 'intltool')
+options=('!emptydirs' '!libtool')
+install=mate-terminal.install
+source=("https://github.com/mate-desktop/mate-terminal/archive/mate-terminal-$pkgver.tar.gz")
+sha256sums=('d2f9e9469c9bca43f11734baeffedcdb96f7341beeed4696a82b60bd71b4084e')
+
+
+build() {
+    cd "$srcdir/mate-terminal-mate-terminal-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --disable-static --localstatedir=/var --disable-scrollkeeper --with-gnu-ld || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-terminal-mate-terminal-$pkgver"
+    make DESTDIR="$pkgdir/" install
+}
+
