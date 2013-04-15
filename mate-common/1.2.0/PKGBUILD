@@ -8,7 +8,7 @@ license=('GPL')
 depends=('python2' 'autoconf>=2.53' 'automake>=1.9' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0' 'which')
 makedepends=('autoconf>=2.53' 'automake>=1.9' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0')
 options=('!libtool')
-source=('https://github.com/mate-desktop/mate-common/archive/mate-common-$pkgver.tar.gz')
+source=("https://github.com/mate-desktop/mate-common/archive/mate-common-$pkgver.tar.gz")
 sha256sums=('24d8cc27b09ac864f3c245dde6117a158a1c527cb5043c89d9f39d3aae8216d2')
 
 
