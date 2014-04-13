@@ -12,11 +12,11 @@ optdepends=('texlive-bin: DVI support')
 install=atril.install
 options=('!libtool' '!emptydirs')
 source=("https://github.com/mate-desktop/mate-document-viewer/archive/mate-document-viewer-$pkgver.tar.gz")
-sha256sums=('c2bc67d64f2098aa112bd1aa7410651863155c804e34a386f7d13084453de462')
+sha256sums=('a3559adb68b051043c82890b13e5d08130292dc3777b3c5038b091b292b5e31e')
 
 
 build() {
-    cd "$srcdir/mate-document-viewer-mate-document-viewer-$pkgver"
+    cd "$srcdir/atril-mate-document-viewer-$pkgver"
     AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
         --localstatedir=/var --libexecdir=/usr/lib/mate-document-viewer --disable-static \
         --enable-{caja,pdf,tiff,djvu,dvi,t1lib,pixbuf,impress,introspection} \
@@ -25,8 +25,8 @@ build() {
 }
 
 package() {
-    cd "$srcdir/mate-document-viewer-mate-document-viewer-$pkgver"
+    cd "$srcdir/atril-mate-document-viewer-$pkgver"
     make DESTDIR="$pkgdir/" install
-    ln -sf atril $pkgdir/usr/bin/mate-document-viewer
+    ln -sf -- atril "${pkgdir}/usr/bin/mate-document-viewer"
 }
 
