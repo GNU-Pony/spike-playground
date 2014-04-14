@@ -78,7 +78,7 @@ Installing Parabola GNU/Linux:
 	passwd # and enter a password
 	cd /etc/systemd/system/getty\@tty1.service.d
 	sed -i s:root:gummy: autologin.conf
-	pacman -S syslinux
+	pacman -S syslinux fakeroot binutils
 	extlinux --install /boot
 	dd if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sda
 	cp /usr/lib/syslinux/bios/{*.{c32,com,0},memdisk} /boot/syslinux
