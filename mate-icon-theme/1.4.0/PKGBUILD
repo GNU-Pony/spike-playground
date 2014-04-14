@@ -4,9 +4,9 @@ pkgrel=1
 pkgdesc='MATE icon theme'
 arch=('any')
 url='http://mate-desktop.org'
-license=('GPL')
+license=('LGPL3' 'custom:cc-by-sa-3.0')
 depends=('hicolor-icon-theme' 'icon-naming-utils' 'gtk-update-icon-cache')
-makedepends=('intltool')
+makedepends=('intltool' 'automake' 'make' 'mate-common')
 install=mate-icon-theme.install
 source=("https://github.com/mate-desktop/mate-icon-theme/archive/mate-icon-theme-$pkgver.tar.gz")
 sha256sums=('9dba7c6813bb8ea03beff9fc4a615529c2b0b306696c447a00c9650c1b45f53d')
@@ -14,7 +14,7 @@ sha256sums=('9dba7c6813bb8ea03beff9fc4a615529c2b0b306696c447a00c9650c1b45f53d')
 
 build() {
     cd "$srcdir/mate-icon-theme-mate-icon-theme-$pkgver"
-    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr || return 1
+    AUTOMAKE=automake ACLOCAL=aclocal AUTOCONF=autoconf ./autogen.sh --prefix=/usr || return 1
     make || return 1
 }
 
@@ -23,6 +23,6 @@ package() {
     make DESTDIR="$pkgdir" install
     
     # don't include icon cache
-    rm -f "$pkgdir/usr/share/icons/mate/icon-theme.cache"
+    rm -f -- "$pkgdir/usr/share/icons/mate/icon-theme.cache"
 }
 

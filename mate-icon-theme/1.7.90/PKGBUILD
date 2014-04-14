@@ -1,5 +1,5 @@
 pkgname=mate-icon-theme
-pkgver=1.1.1
+pkgver=1.7.90
 pkgrel=1
 pkgdesc='MATE icon theme'
 arch=('any')
@@ -9,7 +9,7 @@ depends=('hicolor-icon-theme' 'icon-naming-utils' 'gtk-update-icon-cache')
 makedepends=('intltool' 'automake' 'make' 'mate-common')
 install=mate-icon-theme.install
 source=("https://github.com/mate-desktop/mate-icon-theme/archive/mate-icon-theme-$pkgver.tar.gz")
-sha256sums=('e2c9ded9fcb6b3c500531c596746b9b490b81ad4c41b75c4d81623c5adb9cfe5')
+sha256sums=('57d971a31264813cd99d179b7927fdc212137197cd9a1708c4cc568d7dbc007f')
 
 
 build() {
@@ -25,4 +25,3 @@ package() {
     # don't include icon cache
     rm -f -- "$pkgdir/usr/share/icons/mate/icon-theme.cache"
 }
-
