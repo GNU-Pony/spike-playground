@@ -11,7 +11,7 @@ makedepends=('mate-doc-utils' 'caja' 'intltool' 'gobject-introspection' 'gtk-doc
 optdepends=('texlive-bin: DVI support')
 install=atril.install
 options=('!libtool' '!emptydirs')
-source=("https://github.com/mate-desktop/mate-document-viewer/archive/mate-document-viewer-$pkgver.tar.gz")
+source=("https://github.com/mate-desktop/atril/archive/atril-$pkgver.tar.gz")
 sha256sums=('14487ed24391c20d5c917688e8502e97f731095ac84c059420afd1b41205eeed')
 
 
