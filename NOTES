@@ -131,4 +131,16 @@ Get this repo:
 Make a backup of the machine:
 
 	gzip -1 < _/disc.raw > _/clean.raw.gz
+	# This is the fastest compression and it
+	# will reduce the size to 384,6 MB. If you
+	# raise the compression level you not get
+	# too much better compression, nor will
+	# it take much longer.
+	# However if you use xz, you can get
+	# much faster decompression at the cost
+	# of longer compression time:
+	xz -1 < _/disc.raw > _/clean.raw.xz
+	# Using `xz -1` will reduce the size to
+	# 313,2 MB and `xz -e9` will reduce it
+	# to 292,9 MB.
 
