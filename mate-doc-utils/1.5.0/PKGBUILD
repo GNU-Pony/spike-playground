@@ -6,7 +6,7 @@ arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('GPL' 'LGPL')
 depends=('libxslt' 'python2' 'docbook-xml' 'rarian')
-makedepends=('mate-common')
+makedepends=('mate-common' 'automake-1.9')
 options=('!emptydirs' '!libtool')
 source=("https://github.com/mate-desktop/mate-doc-utils/archive/mate-doc-utils-$pkgver.tar.gz")
 sha256sums=('e489700f2d08aa689907e7c4ef876579da26437e2381c93d221b7bc17bd28f15')
@@ -14,7 +14,9 @@ sha256sums=('e489700f2d08aa689907e7c4ef876579da26437e2381c93d221b7bc17bd28f15')
 
 build() {
     cd "$srcdir/mate-doc-utils-mate-doc-utils-$pkgver"
-    AUTOCONF=autoconf AUTOMAKE=automake PYTHON=/usr/bin/python2 ./autogen.sh --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --localstatedir=/var --disable-scrollkeeper || return 1
+    AUTOCONF=autoconf AUTOMAKE=automake-1.9 ACLOCAL=aclocal-1.9 PYTHON=/usr/bin/python2 \
+        ./autogen.sh --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man \
+        --localstatedir=/var --disable-scrollkeeper || return 1
     make || return 1
 }
 
@@ -23,10 +25,10 @@ package() {
     make DESTDIR="$pkgdir" install || return 1
     
     # files with conflicts with gnome-doc-utils
-    rm -rf "$pkgdir/usr/share/xml/mallard/"
-    rm "$pkgdir/usr/share/pkgconfig/xml2po.pc"
-    rm -rf "$pkgdir/usr/share/man/"
-    rm -rf "$pkgdir/usr/lib/"
-    rm "$pkgdir/usr/bin/xml2po"
+    rm -rf -- "$pkgdir/usr/share/xml/mallard/"
+    rm -- "$pkgdir/usr/share/pkgconfig/xml2po.pc"
+    rm -rf -- "$pkgdir/usr/share/man/"
+    rm -rf -- "$pkgdir/usr/lib/"
+    rm -- "$pkgdir/usr/bin/xml2po"
 }
 

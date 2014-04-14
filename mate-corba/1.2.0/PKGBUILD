@@ -5,8 +5,8 @@ pkgdesc='Thin/fast CORBA ORB'
 arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('GPL' 'LGPL')
-depends=('libidl2>=0.8.11')
-makedepends=('pkgconfig' 'automake-1.12')
+depends=('libidl2>=0.8.11' 'glib2')
+makedepends=('pkgconfig' 'automake-1.9' 'make' 'glib2' 'libidl2>=0.8.11')
 options=('!emptydirs' '!libtool')
 source=("https://github.com/mate-desktop/mate-corba/archive/mate-corba-$pkgver.tar.gz")
 sha256sums=('3ff48ee4c942e22f59d9a7c6d8360ce52c11cc0021d0d895bb0f883c39ebff5e')
@@ -15,7 +15,8 @@ sha256sums=('3ff48ee4c942e22f59d9a7c6d8360ce52c11cc0021d0d895bb0f883c39ebff5e')
 build() {
     cd "$srcdir/mate-corba-mate-corba-$pkgver"
     chmod a+x ./autogen.sh
-    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --disable-static || return 1
+    AUTOMAKE=automake-1.9 ACLOCAL=aclocal-1.9 AUTOCONF=autoconf \
+        ./autogen.sh --prefix=/usr --disable-static || return 1
     MAKEFLAGS= make || return 1
 }
 

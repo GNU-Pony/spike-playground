@@ -1,22 +1,21 @@
 pkgname=mate-doc-utils
-pkgver=1.4.0
+pkgver=1.6.1
 pkgrel=1
 pkgdesc='Common files for MATE packages'
 arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('GPL' 'LGPL')
 depends=('libxslt' 'python2' 'docbook-xml' 'rarian')
-makedepends=('mate-common' 'automake-1.9')
+makedepends=('mate-common' 'automake-1.12')
 options=('!emptydirs' '!libtool')
 source=("https://github.com/mate-desktop/mate-doc-utils/archive/mate-doc-utils-$pkgver.tar.gz")
-sha256sums=('a795ea886343210880ba84fdd1f99fae26849a6bca8d6f7a35dc1dffb6e452b5')
-
+sha256sums=('08229f71b774b0bf55c1661ec96cbf2c00bd3dfe57f57f07df71456cd4f54ef1')
 
 build() {
     cd "$srcdir/mate-doc-utils-mate-doc-utils-$pkgver"
-    AUTOCONF=autoconf AUTOMAKE=automake-1.9 ACLOCAL=aclocal-1.9 PYTHON=/usr/bin/python2 \
-        ./autogen.sh --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man --localstatedir=/var \
-        --disable-scrollkeeper || return 1
+    AUTOCONF=autoconf AUTOMAKE=automake-1.12 ACLOCAL=aclocal-1.12 PYTHON=/usr/bin/python2 \
+        ./autogen.sh --prefix=/usr --sysconfdir=/etc --mandir=/usr/share/man \
+        --localstatedir=/var --disable-scrollkeeper || return 1
     make || return 1
 }
 

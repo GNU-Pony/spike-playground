@@ -6,7 +6,7 @@ arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('GPL3')
 depends=('python2' 'autoconf>=2.53' 'automake>=1.14' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0' 'which')
-makedepends=('autoconf>=2.53' 'automake>=1.14' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0' make)
+makedepends=('autoconf>=2.53' 'automake>=1.14' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0' 'make')
 options=('!emptydirs')
 source=("https://github.com/mate-desktop/mate-common/archive/mate-common-$pkgver.tar.gz")
 sha256sums=('a41ac75d758f5c35062f23b5b93f992fa25e276446f9c83fcdcf2043c3f8d478')

@@ -7,17 +7,18 @@ url='http://mate-desktop.org'
 license=('GPL')
 depends=('libexif' 'exempi' 'mate-icon-theme' 'shared-mime-info'
          'desktop-file-utils' 'gvfs' 'libunique' 'mate-desktop')
-makedepends=('pkgconfig' 'intltool')
+makedepends=('pkgconfig' 'intltool' 'make' 'mate-common' 'automake-1.9' 'gtk-doc>=1.10' 'mate-conf')
 options=('!libtool' '!emptydirs')
 install=caja.install
-source=("https://github.com/mate-desktop/caja/archive/mate-file-manager-$pkgver.tar.gz")
+source=("https://github.com/mate-desktop/caja/archive/caja-$pkgver.tar.gz")
 sha256sums=('58c7ec2f4e84ff47c83bfe3d429d2a48d98fa9e8b4fd8765d6f1d4983a4fa245')
 
 
 build() {
     cd "$srcdir/caja-caja-$pkgver"
-    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
-        --localstatedir=/var --disable-static --libexecdir=/usr/lib/caja --enable-unique \
+    AUTOMAKE=automake-1.9 ACLOCAL=aclocal-1.9 AUTOCONF=autoconf \
+        ./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var \
+        --disable-static --libexecdir=/usr/lib/caja --enable-unique \
         --disable-update-mimedb || return 1
     make || return 1
 }

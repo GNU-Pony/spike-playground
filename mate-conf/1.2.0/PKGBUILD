@@ -6,7 +6,7 @@ arch=('i686' 'x86_64')
 url='http://mate-desktop.org'
 license=('LGPL')
 depends=('mate-corba' 'libxml2' 'polkit' 'libldap' 'dbus-glib' 'gtk2')
-makedepends=('pkgconfig' 'intltool' 'gtk-doc' 'gobject-introspection' 'automake-1.12')
+makedepends=('pkgconfig' 'intltool' 'gtk-doc' 'gobject-introspection' 'automake-1.9' 'make')
 options=('!libtool')
 install=mate-conf.install
 source=("https://github.com/mate-desktop/mate-conf/archive/mate-conf-$pkgver.tar.gz"
@@ -19,7 +19,8 @@ sha256sums=('86ae1c10ac1d41b0ebcb28106712c59c9f0ad3491df87d8ec708416ceefbb1b9'
 build() {
     cd "$srcdir/mate-conf-mate-conf-$pkgver"
     chmod a+x ./autogen.sh
-    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+    AUTOMAKE=automake-1.9 ACLOCAL=aclocal-1.9 AUTOCONF=autoconf \
+        ./autogen.sh --prefix=/usr --sysconfdir=/etc \
         --libexecdir=/usr/lib/MateConf --localstatedir=/var --disable-static \
         --enable-defaults-service --enable-gsettings-backend=no || return 1
     make || return 1
@@ -28,8 +29,8 @@ build() {
 package() {
     cd "$srcdir/mate-conf-mate-conf-$pkgver"
     make DESTDIR="$pkgdir" install
-    mkdir -p "$pkgdir/usr/sbin"
-    install -m755 "$srcdir/mateconf-merge-schema" "$pkgdir/usr/sbin"
-    install -m755 "$srcdir/mateconfpkg" "$pkgdir/usr/sbin"
+    mkdir -p -- "$pkgdir/usr/bin"
+    install -m755 -- "$srcdir/mateconf-merge-schema" "$pkgdir/usr/bin"
+    install -m755 -- "$srcdir/mateconfpkg" "$pkgdir/usr/bin"
 }
 
