@@ -10,7 +10,7 @@ depends=('libexif' 'exempi' 'mate-icon-theme' 'shared-mime-info'
 makedepends=('pkgconfig' 'intltool')
 options=('!libtool' '!emptydirs')
 install=caja.install
-source=("https://github.com/mate-desktop/mate-file-manager/archive/mate-file-manager-$pkgver.tar.gz")
+source=("https://github.com/mate-desktop/caja/archive/mate-file-manager-$pkgver.tar.gz")
 sha256sums=('5aae7fd8cab5df3fafe05b2f67a9bd69f4ee5c0af0f9385c9fc71dade6776382')
 
 
