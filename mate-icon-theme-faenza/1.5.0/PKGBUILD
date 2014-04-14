@@ -2,11 +2,11 @@ pkgname=mate-icon-theme-faenza
 pkgver=1.5.0
 pkgrel=1
 pkgdesc='MATE icon theme: Faenza'
-arch=('i686' 'x86_64')
+arch=('any')
 url='http://mate-desktop.org'
-license=('LGPL')
-depends=('gtk2' 'librsvg' 'hicolor-icon-theme')
-makedepends=('gettext' 'hicolor-icon-theme' 'intltool' 'pkg-config' 'icon-naming-utils' 'librsvg' 'mate-common')
+license=('GPL2')
+depends=('gtk-update-icon-cache' 'hicolor-icon-theme')
+makedepends=('gtk-update-icon-cache' 'hicolor-icon-theme' 'icon-naming-utils' 'mate-common' 'make' 'automake')
 install=mate-icon-theme-faenza.install
 source=("https://github.com/mate-desktop/mate-icon-theme-faenza/archive/mate-icon-theme-faenza-$pkgver.tar.gz")
 sha256sums=('961aad424871f57758288d8d60c3a7a2714f3421869fc40d8cdd44714bdec4f6')
@@ -14,13 +14,13 @@ sha256sums=('961aad424871f57758288d8d60c3a7a2714f3421869fc40d8cdd44714bdec4f6')
 
 build() {
     cd "$srcdir/mate-icon-theme-faenza-mate-icon-theme-faenza-$pkgver"
-    AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr || return 1
+    AUTOMAKE=automake ACLOCAL=aclocal AUTOCONF=autoconf ./autogen.sh --prefix=/usr || return 1
     make || return 1
 }
 
 package() {
     cd "$srcdir/mate-icon-theme-faenza-mate-icon-theme-faenza-$pkgver"
     make DESTDIR="$pkgdir" install
-    rm -f "$pkgdir/usr/share/icons/mate/icon-theme.cache"
+    rm -f -- "$pkgdir/usr/share/icons/mate/icon-theme.cache"
 }
 
