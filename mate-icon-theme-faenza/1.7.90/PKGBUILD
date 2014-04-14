@@ -9,7 +9,7 @@ depends=('gtk-update-icon-cache' 'hicolor-icon-theme')
 makedepends=('gtk-update-icon-cache' 'hicolor-icon-theme' 'icon-naming-utils' 'mate-common' 'make' 'automake')
 install=mate-icon-theme-faenza.install
 source=("https://github.com/mate-desktop/mate-icon-theme-faenza/archive/mate-icon-theme-faenza-$pkgver.tar.gz")
-sha256sums=('9777abe027156e09c8e6322474d6b4fd5a223e2da881d39623439b0a47a52ff3')
+sha256sums=('d5e4cece8def99ec2e1d6673c3a30c0a31fd4345071fadcd1b4cdfc81fa736fb')
 
 
 build() {
