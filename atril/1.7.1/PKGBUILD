@@ -1,0 +1,32 @@
+pkgname=atril
+pkgver=1.7.1
+pkgrel=1
+pkgdesc='The MATE document viewer'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL')
+depends=('gtk2' 'libspectre' 'gsfonts' 'poppler-glib' 'djvulibre' 'mate-icon-theme'
+         't1lib' 'libmatekeyring' 'desktop-file-utils' 'texlive-bin')
+makedepends=('mate-doc-utils' 'caja' 'intltool' 'gobject-introspection' 'gtk-doc' 'automake-1.12')
+optdepends=('texlive-bin: DVI support')
+install=atril.install
+options=('!libtool' '!emptydirs')
+source=("https://github.com/mate-desktop/mate-document-viewer/archive/atril-$pkgver.tar.gz")
+sha256sums=('66acc126fc1cc47ecf6f54e145037dc980fe2f8bc2eab74744645a858293573c')
+
+
+build() {
+    cd "$srcdir/atril-atril-$pkgver"
+    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --libexecdir=/usr/lib/mate-document-viewer --disable-static \
+        --enable-{caja,pdf,tiff,djvu,dvi,t1lib,pixbuf,impress,introspection} \
+        --disable-scrollkeeper --disable-schemas-{compile,install} || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/atril-atril-$pkgver"
+    make DESTDIR="$pkgdir/" install
+    ln -sf -- atril "${pkgdir}/usr/bin/mate-document-viewer"
+}
+
