@@ -11,11 +11,11 @@ makedepends=('pkgconfig' 'intltool')
 options=('!libtool' '!emptydirs')
 install=caja.install
 source=("https://github.com/mate-desktop/mate-file-manager/archive/mate-file-manager-$pkgver.tar.gz")
-sha256sums=('debe65824e34728d2b361ef35e58d8252a8f836fdb5a1284fa078a9eeb2e526d')
+sha256sums=('34fe1ef290c464fa4cbbe7c8082cfb57e0c1fbde7066f969dd3a265e2d06fb07')
 
 
 build() {
-    cd "$srcdir/mate-file-manager-mate-file-manager-$pkgver"
+    cd "$srcdir/caja-mate-file-manager-$pkgver"
     AUTOMAKE=automake AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc \
         --localstatedir=/var --disable-static --libexecdir=/usr/lib/caja --enable-unique \
         --disable-update-mimedb || return 1
@@ -23,7 +23,7 @@ build() {
 }
 
 package() {
-    cd "$srcdir/mate-file-manager-mate-file-manager-$pkgver"
+    cd "$srcdir/caja-mate-file-manager-$pkgver"
     make DESTDIR="$pkgdir" install || return 1
 }
 
