@@ -1,0 +1,25 @@
+pkgname=mate-common
+pkgver=1.6.1
+pkgrel=1
+pkgdesc='Common files for MATE packages'
+arch=('i686' 'x86_64')
+url='http://mate-desktop.org'
+license=('GPL3')
+depends=('python2' 'autoconf>=2.53' 'automake=1.12' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0' 'which')
+makedepends=('autoconf>=2.53' 'automake=1.12' 'libtool>=1.4.3' 'gettext>=0.10.40' 'glib2>=2.2.0' 'intltool>=0.25' 'pkg-config>=0.14.0' make)
+options=('!emptydirs')
+source=("https://github.com/mate-desktop/mate-common/archive/mate-common-$pkgver.tar.gz")
+sha256sums=('a50ed52ad1d6dd38daca81c947a9b99517639134c85ac80098688ecd02a69d81')
+
+
+build() {
+    cd "$srcdir/mate-common-mate-common-$pkgver"
+    AUTOCONF=autoconf AUTOMAKE=automake-1.12 ACLOCAL=aclocal-1.12 ./autogen.sh --prefix=/usr || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-common-mate-common-$pkgver"
+    make DESTDIR="$pkgdir" install || return 1
+    ln -sf -- "mate-autogen" "$pkgdir/usr/bin/mate-autogen.sh"
+}
