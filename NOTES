@@ -1,0 +1,134 @@
+These are instructions on how to install and run Parabola GNU/Linux on QEMU.
+This is used to test the packages on a clean system. Parabola GNU/Linux is
+bases on Arch Linux, either of which is required to use the currently used
+packaging format: PKGBUILD. Both Parabola GNU/Linux and QEMU are Free Software,
+in constrast to Arch Linux and Virtual Box which is a very popular virtual
+machine.
+
+
+Creating an QEMU machine:
+
+	mkdir _
+	cd _
+
+	qemu-img create -f raw disc.raw 4G
+	# Warning: do not store the disc on a filesystem with copy-on-write
+
+	# Install aria2
+	aria2c 'magnet:?xt=urn:btih:9219892eb93fabad12947e06873abe5ffa9cd261&dn=parabola-2013.09.01-dual.iso&tr=udp://tracker.publicbt.com:80&tr=udp://tracker.openbittorrent.com:80&tr=udp://tracker.istole.it:80&tr=http://ponape.com.ar:6969/announce'
+	# Or if you are in a hurry: wget http://mtjm.eu/releases/parabola/parabola-2013.09.01-dual.iso
+
+
+Running the QEMU machine:
+
+	cd _
+	qemu-system-x86_64 -cdrom parabola-2013.09.01-dual.iso -boot order=d disc.raw -m 2048
+	# See https://wiki.archlinux.org/index.php/Qemu#Virtual_machine_runs_too_slowly for performance tips.
+	# You can also take a look at `qemu-system-x86_64 -help`.
+	# I also use the options: -machine type=pc,accel=kvm -cpu host -smp 3
+	# -cdrom parabola-2013.09.01-dual.iso -boot order=D is only required when you are installing the system.
+
+
+Installing Parabola GNU/Linux:
+
+	loadkeys sv-latin1
+	# Loads the standard Swedish/Finnish keyboard
+
+	bash
+	# Most users are more familiar with Bash than
+	# Zsh, it is also less CPU intensive.
+
+	fdisk /dev/sda
+	o
+	n
+	p
+	1
+		blank line
+	+128M
+	n
+	p
+	2
+		blank line
+		blank line
+	a
+	1
+	w
+
+	mkfs -t ext2 -L boot -m 0.05 /dev/sda1
+	mkfs -t ext4 -L mane -m 0.05 /dev/sda2
+
+	mount /dev/sda2 /mnt
+	mkdir /mnt/boot
+	mount /dev/sda1 /mnt/boot
+
+	pacstrap /mnt base
+	genfstab -p /mnt >> /mnt/etc/fstab
+	# NB! Do not install base-devel, we want to
+	#     list all make dependencies explicitly.
+
+	arch-chroot /mnt
+	cd /etc
+	echo ponyville > hostname
+	ln -s /usr/share/zoneinfo/Europe/Stockholm localtime
+	sed -i 's:#en_GB.UTF-8:en_GB.UTF-8:' locale.gen
+	locale-gen
+	Add console keymap and font preferences in /etc/vconsole.conf
+	echo KEYMAP=sv-latin1 > vconsole.conf
+	echo FONT=lat9w-16 >> vconsole.conf ## XXX why does this not work?
+	passwd # and enter a password
+	cd /etc/systemd/system/getty\@tty1.service.d
+	sed -i s:root:gummy: autologin.conf
+	pacman -S syslinux
+	extlinux --install /boot
+	dd if=/usr/lib/syslinux/bios/mbr.bin of=/dev/sda
+	cp /usr/lib/syslinux/bios/{*.{c32,com,0},memdisk} /boot/syslinux
+	sed -i s:/sda3:/sda2: /boot/syslinux/syslinux.cfg
+	useradd -m -U gummy
+	passwd gummy # and enter a password
+	exit
+	cp {,/mnt}/usr/lib/systemd/system/getty\@.service
+	cp -r /etc/systemd/system/getty\@tty1.service.d /mnt/etc/systemd/system
+	cp -r /etc/systemd/system/getty.target.wants /mnt/etc/systemd/system
+	cp /boot/syslinux/splash.png /mnt/boot/syslinux
+	halt
+
+	# Yeah, I don't use systemd so this is not too optimal,
+	# but it works for this purpose. However, becuase I do not
+	# know how to configure systemd you will have to type
+	#   sudo dhcpcd  every time you start.
+
+
+Configuring the system:
+
+	su root
+	dhcpcd ## see the section above
+	pacman -S sudo git
+	echo 'gummy ALL=(ALL) ALL' >> /etc/sudoers
+	exit
+
+	# If you are using Swedish/Finnish you can switch to
+	# a better keyboard layout.
+	curl -s https://raw.githubusercontent.com/maandree/my-keyboard/raw/master/sv-maandree.map |
+	    gzip -9 > sv-maandree.map.gz
+	sudo mv sv-maandree.map.gz /usr/share/kbd/keymaps/i386/qwerty
+	sudo sed -i s:latin1:maandree /etc/vconsole.conf
+	sudo loadkeys sv-maandree
+
+	su root
+	echo '[archlinuxfr]' >> /etc/pacman.conf
+	echo 'SigLevel = Optional TrustAll' >> /etc/pacman.conf
+	echo 'Server = http://repo.archlinux.fr/$arch' >> /etc/pacman.conf
+	pacman -Sy
+	pacman -S yaourt
+	exit
+
+
+Get this repo:
+
+	git clone https://github.com/GNU-Pony/spike-playground
+
+
+Make a backup of the machine:
+
+	gzip -1 < _/disc.raw > _/clean.raw.gz
+
