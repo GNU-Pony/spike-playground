@@ -4,23 +4,24 @@ pkgrel=1
 pkgdesc='The base MIME and Application database for MATE'
 arch=('any')
 url='http://mate-desktop.org'
-license=('GPL')
+license=('GPL2')
 depends=('shared-mime-info')
-makedepends=('intltool' 'automake-1.12')
+makedepends=('intltool' 'automake' 'make' 'mate-common')
 source=("https://github.com/mate-desktop/mate-mime-data/archive/mate-mime-data-$pkgver.tar.gz")
 sha256sums=('ae24ef806e9d06a51d342f22b35b053dfb53d59a150e6b28d9eb2e1746ad5d6d')
 
 
 build() {
     cd "$srcdir/mate-mime-data-mate-mime-data-$pkgver"
-    AUTOMAKE=automake-1.12 AUTOCONF=autoconf ./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var || return 1
+    AUTOMAKE=automake ACLOCAL=aclocal AUTOCONF=autoconf \
+        ./autogen.sh --prefix=/usr --sysconfdir=/etc --localstatedir=/var || return 1
     make || return 1
 }
 
 package() {
     cd "$srcdir/mate-mime-data-mate-mime-data-$pkgver"
     make DESTDIR="$pkgdir" install
-    install -m755 -d "$pkgdir/usr/lib"
-    mv "$pkgdir/usr/share/pkgconfig" "$pkgdir/usr/lib/"
+    install -m755 -d -- "$pkgdir/usr/lib"
+    mv -- "$pkgdir/usr/share/pkgconfig" "$pkgdir/usr/lib/"
 }
 
