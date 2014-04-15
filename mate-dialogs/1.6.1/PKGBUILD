@@ -1,0 +1,30 @@
+pkgname=mate-dialogs
+pkgver=1.6.1
+pkgrel=1
+pkgdesc='Display graphical dialog boxes from shell scripts'
+arch=(i686 x86_64)
+url='http://mate-desktop.org'
+license=('LGPL2')
+depends=('libnotify' 'gtk2')
+makedepends=('intltool' 'gtk-doc' 'mate-doc-utils' 'gtk2' 'make' 'automake' 'mate-common')
+provides=('zenity')
+conflicts=('zenity')
+options=('!emptydirs' '!libtool')
+source=("https://github.com/mate-desktop/mate-dialogs/archive/mate-dialogs-$pkgver.tar.gz")
+sha256sums=('787f1081bb6507e78db4ac2d93b054fa7686a3a1484ba4f60effdaf96d60ef83')
+
+
+build() {
+    cd "$srcdir/mate-dialogs-mate-dialogs-$pkgver"
+    AUTOMAKE=automake AUTOCONF=autoconf ACLOCAL=aclocal \
+        ./autogen.sh --prefix=/usr --sysconfdir=/etc \
+        --localstatedir=/var --disable-static --disable-scrollkeeper || return 1
+    make || return 1
+}
+
+package() {
+    cd "$srcdir/mate-dialogs-mate-dialogs-$pkgver"
+    make DESTDIR="$pkgdir" install
+    ln -sf -- matedialog "$pkgdir/usr/bin/zenity"
+}
+
