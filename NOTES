@@ -26,7 +26,7 @@ Running the QEMU machine:
 	# See https://wiki.archlinux.org/index.php/Qemu#Virtual_machine_runs_too_slowly for performance tips.
 	# You can also take a look at `qemu-system-x86_64 -help`.
 	# I also use the options: -machine type=pc,accel=kvm -cpu host -smp 3
-	# -cdrom parabola-2013.09.01-dual.iso -boot order=D is only required when you are installing the system.
+	# -cdrom parabola-2013.09.01-dual.iso -boot order=d is only required when you are installing the system.
 
 
 Installing Parabola GNU/Linux:
